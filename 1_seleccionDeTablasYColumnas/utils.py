@@ -121,10 +121,12 @@ def limpiar_tabla(tabla, c_index, c_seriales, c_fechas, nun_th, len_th, num_div)
     res["NumCategorias"] = np.nan
     res["NumValoresAgrupados"] = np.nan
     res["FrecRelValoresAgrupados"] = np.nan
+    res["nans"] = np.nan
 
     for i in c_fechas:
         tabla[i] = pd.to_datetime(tabla[i])
         res.loc[i,"Tipo"] = "fecha"
+        res.loc[i, "nans"] = tabla[i].isna().sum()
 
     columnas = list(set(tabla.columns) - set(c_fechas))
     
@@ -135,6 +137,7 @@ def limpiar_tabla(tabla, c_index, c_seriales, c_fechas, nun_th, len_th, num_div)
 
     for i in columnas:
         f_nans = tabla[i].isna()
+        res.loc[i, "nans"] = f_nans.sum()
 
         if tabla[i].nunique() <= nun_th:
             c_categ.append(i)
@@ -158,7 +161,7 @@ def limpiar_tabla(tabla, c_index, c_seriales, c_fechas, nun_th, len_th, num_div)
 
                     quantiles = np.linspace(0, 1, num_div+1)
                     bin_edges = stats.mstats.mquantiles(tabla.loc[~f_nans, i], quantiles)
-                    intervalo = pd.cut(tabla.loc[~f_nans, i], bin_edges, duplicates='drop')
+                    intervalo = pd.cut(tabla.loc[~f_nans, i], bin_edges, duplicates='drop', include_lowest=True)
                     tabla.loc[~f_nans, i] = tabla[i].name + "_" + intervalo.astype(str)
                     res.loc[i, "NumValoresAgrupados"] = intervalo.value_counts().mean()
                     tabla.loc[ f_nans, i] = "isNaN"
@@ -173,12 +176,33 @@ def limpiar_tabla(tabla, c_index, c_seriales, c_fechas, nun_th, len_th, num_div)
 
                         tabla.loc[f_nans, i] = tabla[i].median()
     
-    for i in tabla.columns:
-        res.loc[i, "NumCategorias"] = tabla[i].nunique()
-        
+    res["NumCategorias"] = tabla.nunique()
+    res["nans"] = 100*(tabla == "isNaN").sum()/tabla.shape[0]
+    
     c_categ = list(set(c_categ)-set(c_fechas))
     c_num = list(set(c_num))
     
     return tabla, c_categ, c_num, res.sort_values(by=["Tipo","NumCategorias","FrecRelValoresAgrupados"])
 
+
+
+
+
+
+def rel_indices(idx1, idx2):
+    idx1 = set(idx1)
+    idx2 = set(idx2)
+    print("Longitud del primer set:", len(idx1))
+    print("Longitud del segundo set:", len(idx2))
+
+    inter = set.intersection(idx1,idx2)
+    print("\nIndices comunes:", len(inter))
+    
+    
+    l1 = set.difference(idx1, idx2)
+    print("Indices que solo están en el primero:", len(l1))
+
+    l2 = set.difference(idx2, idx1)
+    print("Indices que solo están en el segundo:", len(l2))
+    print("_____________________________________________\n")
     
