@@ -69,7 +69,7 @@ def resumen_tabla(tabla, sort_key = "dtype"):
 
 
 
-def limpiar_tabla(tabla, c_index, c_elim, c_fechas, c_num, nun_th, len_th, num_div):
+def limpiar_tabla(tabla, c_index, c_elim=[], c_fechas=[], c_num=[], c_nans=[], nun_th=20, len_th=40, num_div=-1):
     """
     Argumentos:
     -el dataframe a limpiar
@@ -119,7 +119,15 @@ def limpiar_tabla(tabla, c_index, c_elim, c_fechas, c_num, nun_th, len_th, num_d
         res.loc[i,"Tipo"] = "fecha"
         res.loc[i, "nans"] = tabla[i].isna().sum()
         
-    # Las columnas indicadas como 'c_num' se dejan como numéricas, los nans se sustituyen por la mediana y se añade otra columna indicando si el valor de 'c_num' era nan
+    # Las columnas indicadas en 'c_nans' se pasan a binarias, dependiendo de si hay valor o no (agrupando en la misma categoria los posibles valores)
+    for i in c_nans:
+        f_nans = tabla[i].isna()
+        res.loc[i,"Tipo"] = "categorica"
+        res.loc[i, "nans"] = f_nans.sum()
+        tabla.loc[:,i] = tabla.loc[:,i].isna().astype("int8")
+        
+    
+    # Las columnas indicadas en 'c_num' se dejan como numéricas, los nans se sustituyen por la mediana y se añade otra columna indicando si el valor de 'c_num' era nan
     for i in c_num:
         f_nans = tabla[i].isna()
         res.loc[i, "nans"] = f_nans.sum()
@@ -132,7 +140,7 @@ def limpiar_tabla(tabla, c_index, c_elim, c_fechas, c_num, nun_th, len_th, num_d
             tabla.loc[f_nans, i] = tabla[i].median()
     
     
-    columnas = list( (set(tabla.columns) - set(c_fechas)) - set(c_num) )
+    columnas = list( set(tabla.columns) - set.union( set(c_fechas), set(c_num), set(c_nans)) )
     
     # Recorta los strings largos: si un string tiene una longitud mayor que 'len_th' caracteres, deja el principio y le añade su hash al final, para evitar recortar strings que son diferentes pero tienen el mismo inicio.
     for i in columnas:
@@ -216,5 +224,33 @@ def rel_indices(idx1, idx2):
     
     
     
+def quitar_nans(aux, c_th = 0.5, f_th = 0.5, plot = False):
+    import matplotlib.pyplot as plt
+    tabla = aux.copy()
+
+    m, n = tabla.shape
+
+    c_nans = (tabla == "isNaN").sum()/m
+    c_elim = c_nans[c_nans > c_th].index
+    tabla = tabla.drop(columns = c_elim)
+
+    f_nans = (tabla == "isNaN").sum(1)/n
+    f_elim = f_nans[f_nans > f_th].index
+    tabla = tabla.drop(index = f_elim)
     
+    print("Se eliminaron %.0f columnas y %.0f registros"%(len(c_elim), len(f_elim)) )
+    if plot:
+        c_nans = (tabla == "isNaN").sum()/m
+        f_nans = (tabla == "isNaN").sum(1)
+        plt.hist(c_nans, bins=100)
+        plt.xlabel("% registros nan")
+        plt.ylabel("Nº columnas")
+        plt.show()
+        
+        plt.hist(f_nans, bins=100)
+        plt.xlabel("Nº variables nan")
+        plt.ylabel("Nº filas")
+        plt.show()
+        
+    return (tabla, c_elim, f_elim)
     
