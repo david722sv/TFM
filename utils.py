@@ -145,6 +145,7 @@ def limpiar_tabla(tabla, c_index, c_elim=[], c_fechas=[], c_num=[], c_nans=[], n
     # Recorta los strings largos: si un string tiene una longitud mayor que 'len_th' caracteres, deja el principio y le añade su hash al final, para evitar recortar strings que son diferentes pero tienen el mismo inicio.
     for i in columnas:
         if tabla[i].dtype == "object":
+            tabla[i] = tabla[i].str.rstrip()
             muyLargo = tabla[i].str.len() > len_th
             tabla.loc[muyLargo, i] = tabla.loc[muyLargo,i].str.slice(stop=max(10, len_th-20))+"..."+tabla.loc[muyLargo, i].apply(hash).astype(str)
 
