@@ -1,5 +1,5 @@
 ## Información general
-Este repositorio contiene los Notebooks y código utilizado para preparar y analizar parte de los datos provenientes del sistema ARIA.
+Este repositorio contiene los Notebooks y código utilizados para preparar y analizar parte de los datos provenientes del sistema ARIA.
 
 ## Archivos
 El repositorio contiene los siguientes archivos:
