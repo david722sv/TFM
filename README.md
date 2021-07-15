@@ -1,5 +1,5 @@
 ## Información general
-Este repositorio contiene los Notebooks y código utilizados para preparar y analizar parte de los datos provenientes del sistema ARIA en contexto del TFM. Los Notebooks están precedidos de un "capX_" refiriéndose al capítulo del TFM al que corresponden.
+Este repositorio contiene los Notebooks y código utilizados para preparar y analizar parte de los datos provenientes del sistema ARIA en contexto del TFM. Los Notebooks están precedidos de un "capX_" refiriéndose al capítulo correspondiente de la tesis fin de máster "Desarrollo de Técnicas de Aprendizaje Automático para la Planificación Radioterapéutica" del Master en Ciencia de Datos UC/UIMP.
 
 ## Archivos
 El repositorio contiene los siguientes archivos:
