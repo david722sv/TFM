@@ -10,3 +10,6 @@ El repositorio contiene los siguientes archivos:
  - [**cap4_analisis_citas_randomForest.ipynb**](https://github.com/david722sv/TFM/blob/main/cap4_analisis_citas_randomForest.ipynb): Notebook (en lenguage R) con el análisis con árboles y random forest sobre el dataset de citas.
  - [**cap5_analisis_citas_gradientBoosting.ipynb**](https://github.com/david722sv/TFM/blob/main/cap5_analisis_citas_gradientBoosting.ipynb): Notebook (en lenguage Python) con un análisis preliminar con gradient boosting sobre el dataset de citas.
  - [**utils.py**](https://github.com/david722sv/TFM/blob/main/utils.py): un archivo con código Python útil en la parte de pre-procesado de datos.
+ - [**VarianSystem13.0DatabaseReportsSchema**](https://github.com/david722sv/TFM/blob/main/VarianSystem13.0DatabaseReportsSchema.pdf): un archivo pdf con el esquema de la base de datos ARIA.
+
+
