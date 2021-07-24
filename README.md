@@ -1,5 +1,5 @@
 ## Información general
-Este repositorio contiene los Notebooks y código utilizados para preparar y analizar parte de los datos provenientes del sistema ARIA en contexto de la TFM. Los Notebooks están precedidos de un "capX_" refiriéndose al capítulo correspondiente de la Tesis Fin de Máster "Desarrollo de Técnicas de Aprendizaje Automático para la Planificación Radioterapéutica" del Máster en Ciencia de Datos UC/UIMP.
+Este repositorio contiene los Notebooks y código utilizados para preparar y analizar parte de los datos provenientes del sistema ARIA en contexto de la TFM. Los Notebooks están precedidos de un "capX_" refiriéndose al capítulo correspondiente de la Tesis Fin de Máster [**"Desarrollo de Técnicas de Aprendizaje Automático para la Planificación Radioterapéutica"**](http://www.meteo.unican.es/es/node/73617) del Máster en Ciencia de Datos UC/UIMP.
 
 ## Archivos
 El repositorio contiene los siguientes archivos:
